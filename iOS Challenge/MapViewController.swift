@@ -18,6 +18,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     var business: Business?
     @IBOutlet weak var businessName: UILabel!
+    @IBOutlet weak var distance: UILabel!
     @IBOutlet weak var numOfReviews: UILabel!
     @IBOutlet weak var categories: UILabel!
     @IBOutlet weak var phoneNumber: UILabel!
@@ -33,48 +34,38 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         super.viewDidLoad()
         
         self.mapView.delegate = self
-//        if let currBusiness = self.business, let currLatitude = self.userLatitude, let currLongitude = self.userLongitude {
-//            getBusinessDetails(id: currBusiness.id)
-//
-//            let initialLocation = CLLocation(latitude: currLatitude, longitude: currLongitude)
-//            mapView.centerToLocation(initialLocation)
-//
-//            let userPin: MKPointAnnotation = MKPointAnnotation()
-//            userPin.coordinate = CLLocationCoordinate2D(latitude: currLatitude, longitude: currLongitude)
-//            userPin.title = "You are here"
-//            mapView.addAnnotation(userPin)
-//            mapView.addAnnotation(currBusiness)
-//
-//            let distance = calculateDistance(location1: initialLocation, location2: CLLocation(latitude: currBusiness.coordinate.latitude, longitude: currBusiness.coordinate.longitude))
-//            print(distance)
-//
-//        }
         
-        if let currBusiness = self.business, let currLatitude = self.userLatitude, let currLongitude = self.userLongitude {
-            getBusinessDetails(id: currBusiness.id)
-            let initialLocation = CLLocation(latitude: currLatitude, longitude: currLongitude)
+        if let currBusiness = self.business {
+            getBusinessDetails(currBusiness: currBusiness)
         }
     }
     
-    func calculateDistance(location1: CLLocation, location2: CLLocation) -> Double {
-        return location1.distance(from: location2)
+    func calculateDistance(location1: CLLocation, location2: CLLocation) -> String {
+        let distanceMeters = location1.distance(from: location2)
+        
+        if(distanceMeters < 650) {
+            return String(format: "%.1f m", distanceMeters)
+        } else {
+            let distanceMiles = distanceMeters / 1609.0
+            return String(format: "%.2f mi", distanceMiles)
+        }
     }
     
     
-    func getBusinessDetails(id: String) {
-        guard let id = business?.id else {
-            // need to show some error message fail here
-            return
-        }
+    func getBusinessDetails(currBusiness: Business) {
         
         let apikey = "fIbyljOuO_kXY7RN5afW6Xk8I8rhu_DgpbmJSgmzH_xJ-feuDEauPpsQlR6xB5SoueCm2FRkZHvC5Dam6va0x2PGHJWXAKu740r9v3UIobkWSZrpvqbKx0NbXffDYHYx"
         let client = YLPClient(apiKey: apikey)
         
-        client.business(withId: id, completionHandler: { (business, error)  in
+        client.business(withId: currBusiness.id, completionHandler: { (business, error)  in
               
             if let err = error {
+                // Unable to get business details. Display what we know from original search and hide the rest
                 print(err.localizedDescription)
-                
+                self.businessName.text = currBusiness.title
+                self.numOfReviews.text = ""
+                self.setRating(rating: currBusiness.rating)
+                self.categories.text = ""  
             }
             
             if let result = business {
@@ -101,7 +92,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                     self.address.text = address
                     self.categories.text = categories
                     self.setRating(rating: result.rating)
-                    
                 }
               
             }
@@ -184,8 +174,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             let p1 = MKMapPoint(userPin.coordinate)
             let p2 = MKMapPoint(currBusiness.coordinate)
            
-    //           let distance = calculateDistance(location1: initialLocation, location2: CLLocation(latitude: currBusiness.coordinate.latitude, longitude: currBusiness.coordinate.longitude))
-    //           print(distance)
+           self.distance.text = calculateDistance(location1: CLLocation(latitude: currLatitude, longitude: currLongitude), location2: CLLocation(latitude: currBusiness.coordinate.latitude, longitude: currBusiness.coordinate.longitude))
+  
             
             let width = fabs(p1.x-p2.x) * 1.4
             let xChange = fabs(p1.x-p2.x) * 0.2
