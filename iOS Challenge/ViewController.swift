@@ -43,7 +43,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let status = CLLocationManager.authorizationStatus()
 
         if(status == .denied || status == .restricted || !CLLocationManager.locationServicesEnabled()){
-            // show alert to user telling them they need to allow location data to use some feature of your app
+            presentLocationUIAlert()
             return
         }
         
@@ -56,6 +56,20 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
     }
     
+    func presentLocationUIAlert() {
+        let alert = UIAlertController(title: "This feature requires Location Services", message: "Turn on Location Services to search businesses near you", preferredStyle: .alert)
+
+        alert.addAction(UIAlertAction(title: "Settings", style: .default, handler: { action in
+
+            UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+
+        self.present(alert, animated: true)
+    }
+    
+    // MARK: UITableViewDelegate
     private func registerTableViewCells() {
         let businessCell = UINib(nibName: "BusinessTableViewCell",
                                   bundle: nil)
@@ -76,6 +90,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return UITableViewCell()
     }
     
+    // MARK: CLLocationManagerDelegate
     internal func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print(error)
     }
@@ -84,6 +99,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if let location = locations.first {
             print(location.coordinate.longitude)
             print(location.coordinate.latitude)
+            YelpQueries.searchBusinesses(searchTerm: searchTextField.text!, longitude: location.coordinate.longitude, latitude: location.coordinate.latitude)
         }
     }
     
