@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreLocation
+import YelpAPI
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate {
     
@@ -25,10 +26,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
-        
-        businesses.append(Business(name: "Bob's Burgers"))
-        businesses.append(Business(name: "Fatheads"))
-        businesses.append(Business(name: "Houghs"))
         
         self.businessTableView.dataSource = self
         self.businessTableView.delegate = self
@@ -54,6 +51,34 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         locationManager.requestLocation()
         
+    }
+    
+    func searchBusinesses(searchTerm: String, longitude: CLLocationDegrees, latitude: CLLocationDegrees) {
+        let apikey = "fIbyljOuO_kXY7RN5afW6Xk8I8rhu_DgpbmJSgmzH_xJ-feuDEauPpsQlR6xB5SoueCm2FRkZHvC5Dam6va0x2PGHJWXAKu740r9v3UIobkWSZrpvqbKx0NbXffDYHYx"
+        let client = YLPClient(apiKey: apikey)
+        
+        self.businesses.removeAll()
+          
+        let location = YLPCoordinate(latitude: latitude, longitude: longitude)
+        client.search(with: location, term: searchTerm, limit: 50, offset: 0, sort: .bestMatched, completionHandler: { (search, error)  in
+              
+            if let err = error {
+                print(err.localizedDescription)
+            }
+              
+            if let result = search {
+                for business in result.businesses {
+                    print(business.name)
+                    print(business.rating)
+//                  print(business.phone)
+                    self.businesses.append(Business(name: business.name, rating: business.rating))
+                }
+                DispatchQueue.main.async {
+                    self.businessTableView.reloadData()
+                }
+            }
+        })
+          
     }
     
     func presentLocationUIAlert() {
@@ -99,7 +124,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if let location = locations.first {
             print(location.coordinate.longitude)
             print(location.coordinate.latitude)
-            YelpQueries.searchBusinesses(searchTerm: searchTextField.text!, longitude: location.coordinate.longitude, latitude: location.coordinate.latitude)
+            searchBusinesses(searchTerm: searchTextField.text!, longitude: location.coordinate.longitude, latitude: location.coordinate.latitude)
         }
     }
     

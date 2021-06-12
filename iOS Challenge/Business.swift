@@ -11,8 +11,10 @@ import Foundation
 class Business {
     
     var name: String
+    var rating: Double
     
-    init(name: String) {
+    init(name: String, rating: Double) {
         self.name = name
+        self.rating = rating
     }
 }
