@@ -16,7 +16,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var businessTableView: UITableView!
     
     var businesses: [Business] = [Business]()
-    var selectedBusinessId: String?
+    var selectedBusiness: Business?
     
     var locationManager = CLLocationManager()
     var currLongitude: CLLocationDegrees!
@@ -36,7 +36,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showMap" {
             if let mapViewController = segue.destination as? MapViewController {
-                mapViewController.businessId = selectedBusinessId
+                mapViewController.business = self.selectedBusiness
+                mapViewController.userLatitude = self.currLatitude
+                mapViewController.userLongitude = self.currLongitude
             }
         }
     }
@@ -69,6 +71,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.businesses.removeAll()
           
         let location = YLPCoordinate(latitude: latitude, longitude: longitude)
+      
         client.search(with: location, term: searchTerm, limit: 50, offset: 0, sort: .bestMatched, completionHandler: { (search, error)  in
               
             if let err = error {
@@ -78,7 +81,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             if let result = search {
                 for business in result.businesses {
                     
-                    self.businesses.append(Business(id: business.identifier, name: business.name, rating: business.rating))
+                    if let lat = business.location.coordinate?.latitude, let long = business.location.coordinate?.longitude {
+                        let b = Business(id: business.identifier, name: business.name, rating: business.rating, latitude: lat, longitude: long)
+                        self.businesses.append(b)
+                    }
                 }
                 DispatchQueue.main.async {
                     self.businessTableView.reloadData()
@@ -122,7 +128,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.selectedBusinessId = self.businesses[indexPath.row].id
+        self.selectedBusiness = self.businesses[indexPath.row]
         self.performSegue(withIdentifier: "showMap", sender: nil)
     }
     
@@ -133,8 +139,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     internal func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first {
-            print(location.coordinate.longitude)
-            print(location.coordinate.latitude)
+            currLongitude = location.coordinate.longitude
+            currLatitude = location.coordinate.latitude
             searchBusinesses(searchTerm: searchTextField.text!, longitude: location.coordinate.longitude, latitude: location.coordinate.latitude)
         }
     }

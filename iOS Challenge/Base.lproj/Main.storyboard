@@ -118,55 +118,55 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Dck-cn-ROi">
-                                <rect key="frame" x="20" y="105" width="374" height="370"/>
+                                <rect key="frame" x="20" y="105" width="374" height="489"/>
                             </mapView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Business Name" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wi9-b3-e7Z">
-                                <rect key="frame" x="20" y="483" width="160.5" height="29"/>
+                                <rect key="frame" x="20" y="602" width="160.5" height="29"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="categories" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8S8-7N-dZN">
-                                <rect key="frame" x="20" y="546" width="80.5" height="21"/>
+                                <rect key="frame" x="20" y="665" width="80.5" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="phone" translatesAutoresizingMaskIntoConstraints="NO" id="YYP-8N-zul">
-                                <rect key="frame" x="20" y="575" width="24" height="24"/>
+                                <rect key="frame" x="20" y="694" width="24" height="24"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="412-555-5555" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xQF-SS-WaG">
-                                <rect key="frame" x="56" y="576.5" width="114" height="21"/>
+                                <rect key="frame" x="56" y="695.5" width="114" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="location" translatesAutoresizingMaskIntoConstraints="NO" id="XPa-Fh-her">
-                                <rect key="frame" x="20" y="615" width="24" height="24"/>
+                                <rect key="frame" x="20" y="734" width="24" height="24"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="15203 Sidney St. Pittsburgh, Pa 15203" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q60-v2-DjY">
-                                <rect key="frame" x="58" y="617" width="294" height="20.5"/>
+                                <rect key="frame" x="58" y="735.5" width="294" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="starFull24" translatesAutoresizingMaskIntoConstraints="NO" id="g8t-gk-clE">
-                                <rect key="frame" x="20" y="517" width="24" height="24"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="starEmpty24" translatesAutoresizingMaskIntoConstraints="NO" id="g8t-gk-clE">
+                                <rect key="frame" x="20" y="636" width="24" height="24"/>
                             </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="starFull24" translatesAutoresizingMaskIntoConstraints="NO" id="fBv-7m-IuP">
-                                <rect key="frame" x="48" y="517" width="24" height="24"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="starEmpty24" translatesAutoresizingMaskIntoConstraints="NO" id="fBv-7m-IuP">
+                                <rect key="frame" x="48" y="636" width="24" height="24"/>
                             </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="starFull24" translatesAutoresizingMaskIntoConstraints="NO" id="pGC-jo-5ge">
-                                <rect key="frame" x="76" y="517" width="24" height="24"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="starEmpty24" translatesAutoresizingMaskIntoConstraints="NO" id="pGC-jo-5ge">
+                                <rect key="frame" x="76" y="636" width="24" height="24"/>
                             </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="starFull24" translatesAutoresizingMaskIntoConstraints="NO" id="xSF-sD-Iq8">
-                                <rect key="frame" x="104" y="517" width="24" height="24"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="starEmpty24" translatesAutoresizingMaskIntoConstraints="NO" id="xSF-sD-Iq8">
+                                <rect key="frame" x="104" y="636" width="24" height="24"/>
                             </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="starFull24" translatesAutoresizingMaskIntoConstraints="NO" id="ZDZ-qv-pZc">
-                                <rect key="frame" x="132" y="517" width="24" height="24"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="starEmpty24" translatesAutoresizingMaskIntoConstraints="NO" id="ZDZ-qv-pZc">
+                                <rect key="frame" x="132" y="636" width="24" height="24"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(223)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KMY-NY-hFa">
-                                <rect key="frame" x="164" y="518.5" width="42.5" height="21"/>
+                                <rect key="frame" x="164" y="637.5" width="42.5" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -199,7 +199,8 @@
                             <constraint firstItem="YYP-8N-zul" firstAttribute="top" secondItem="8S8-7N-dZN" secondAttribute="bottom" constant="8" id="VzP-A1-5er"/>
                             <constraint firstItem="8S8-7N-dZN" firstAttribute="top" secondItem="g8t-gk-clE" secondAttribute="bottom" constant="5" id="Wcb-Yp-3yK"/>
                             <constraint firstItem="KMY-NY-hFa" firstAttribute="centerY" secondItem="g8t-gk-clE" secondAttribute="centerY" id="gms-Kv-z4s"/>
-                            <constraint firstItem="YPs-AE-0kb" firstAttribute="centerY" secondItem="Dck-cn-ROi" secondAttribute="bottom" id="iff-bw-DpN"/>
+                            <constraint firstItem="YPs-AE-0kb" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="q60-v2-DjY" secondAttribute="bottom" constant="20" id="hJo-GZ-pwg"/>
+                            <constraint firstItem="YPs-AE-0kb" firstAttribute="centerY" secondItem="Dck-cn-ROi" secondAttribute="bottom" multiplier="0.8" id="iff-bw-DpN"/>
                             <constraint firstItem="8S8-7N-dZN" firstAttribute="leading" secondItem="YPs-AE-0kb" secondAttribute="leading" constant="20" id="jtS-SC-Sa7"/>
                             <constraint firstItem="q60-v2-DjY" firstAttribute="centerY" secondItem="XPa-Fh-her" secondAttribute="centerY" id="ndz-KE-vSO"/>
                             <constraint firstItem="q60-v2-DjY" firstAttribute="leading" secondItem="XPa-Fh-her" secondAttribute="trailing" constant="14" id="rkQ-Kl-E6r"/>
@@ -214,8 +215,14 @@
                         <outlet property="address" destination="q60-v2-DjY" id="Tan-OV-Ff9"/>
                         <outlet property="businessName" destination="wi9-b3-e7Z" id="Bhr-yz-YlD"/>
                         <outlet property="categories" destination="8S8-7N-dZN" id="BIZ-hg-AZP"/>
+                        <outlet property="fiveStar" destination="ZDZ-qv-pZc" id="Xfs-9k-NKc"/>
+                        <outlet property="fourStar" destination="xSF-sD-Iq8" id="hAy-Jl-MRY"/>
+                        <outlet property="mapView" destination="Dck-cn-ROi" id="c7p-bc-SEm"/>
                         <outlet property="numOfReviews" destination="KMY-NY-hFa" id="fJj-0j-18g"/>
+                        <outlet property="oneStar" destination="g8t-gk-clE" id="Ic6-fY-bqd"/>
                         <outlet property="phoneNumber" destination="xQF-SS-WaG" id="E8d-vQ-BGz"/>
+                        <outlet property="threeStar" destination="pGC-jo-5ge" id="dok-HS-C9S"/>
+                        <outlet property="twoStar" destination="fBv-7m-IuP" id="DOI-gU-fsI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gTc-4r-c80" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -227,6 +234,6 @@
         <image name="location" width="24" height="24"/>
         <image name="phone" width="24" height="24"/>
         <image name="search" width="36" height="36"/>
-        <image name="starFull24" width="24" height="24"/>
+        <image name="starEmpty24" width="24" height="24"/>
     </resources>
 </document>

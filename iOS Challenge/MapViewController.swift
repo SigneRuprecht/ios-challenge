@@ -7,35 +7,65 @@
 //
 
 import UIKit
+import MapKit
 import YelpAPI
 
-class MapViewController: UIViewController {
+class MapViewController: UIViewController, MKMapViewDelegate {
     
-    var businessId: String?
+    @IBOutlet weak var mapView: MKMapView!
+    var userLatitude: CLLocationDegrees?
+    var userLongitude: CLLocationDegrees?
+    
+    var business: Business?
     @IBOutlet weak var businessName: UILabel!
-    @IBOutlet weak var price: UILabel!
     @IBOutlet weak var numOfReviews: UILabel!
     @IBOutlet weak var categories: UILabel!
     @IBOutlet weak var phoneNumber: UILabel!
     @IBOutlet weak var address: UILabel!
     
+    @IBOutlet weak var oneStar: UIImageView!
+    @IBOutlet weak var twoStar: UIImageView!
+    @IBOutlet weak var threeStar: UIImageView!
+    @IBOutlet weak var fourStar: UIImageView!
+    @IBOutlet weak var fiveStar: UIImageView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print(businessId)
-        getBusinessDetails()
-
-        // Do any additional setup after loading the view.
+        self.mapView.delegate = self
+//        if let currBusiness = self.business, let currLatitude = self.userLatitude, let currLongitude = self.userLongitude {
+//            getBusinessDetails(id: currBusiness.id)
+//
+//            let initialLocation = CLLocation(latitude: currLatitude, longitude: currLongitude)
+//            mapView.centerToLocation(initialLocation)
+//
+//            let userPin: MKPointAnnotation = MKPointAnnotation()
+//            userPin.coordinate = CLLocationCoordinate2D(latitude: currLatitude, longitude: currLongitude)
+//            userPin.title = "You are here"
+//            mapView.addAnnotation(userPin)
+//            mapView.addAnnotation(currBusiness)
+//
+//            let distance = calculateDistance(location1: initialLocation, location2: CLLocation(latitude: currBusiness.coordinate.latitude, longitude: currBusiness.coordinate.longitude))
+//            print(distance)
+//
+//        }
+        
+        if let currBusiness = self.business, let currLatitude = self.userLatitude, let currLongitude = self.userLongitude {
+            getBusinessDetails(id: currBusiness.id)
+            let initialLocation = CLLocation(latitude: currLatitude, longitude: currLongitude)
+        }
+    }
+    
+    func calculateDistance(location1: CLLocation, location2: CLLocation) -> Double {
+        return location1.distance(from: location2)
     }
     
     
-    func getBusinessDetails() {
-        guard let id = businessId else {
+    func getBusinessDetails(id: String) {
+        guard let id = business?.id else {
             // need to show some error message fail here
             return
         }
-        
-    
         
         let apikey = "fIbyljOuO_kXY7RN5afW6Xk8I8rhu_DgpbmJSgmzH_xJ-feuDEauPpsQlR6xB5SoueCm2FRkZHvC5Dam6va0x2PGHJWXAKu740r9v3UIobkWSZrpvqbKx0NbXffDYHYx"
         let client = YLPClient(apiKey: apikey)
@@ -44,6 +74,7 @@ class MapViewController: UIViewController {
               
             if let err = error {
                 print(err.localizedDescription)
+                
             }
             
             if let result = business {
@@ -69,30 +100,102 @@ class MapViewController: UIViewController {
                     self.phoneNumber.text = result.phone
                     self.address.text = address
                     self.categories.text = categories
+                    self.setRating(rating: result.rating)
                     
                 }
-                print(result.location.address)
-                print(result.categories)
-                print(result.phone)
-                print(result.reviewCount)
-                
-                
-       
-                
+              
             }
         })
         
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func setRating(rating: Double) {
+        
+        switch(rating) {
+        case 0:
+            break
+        case 0.5:
+            oneStar.image = UIImage(named: "starHalf24")
+            break
+        case 1:
+            oneStar.image = UIImage(named: "starFull24")
+            break
+        case 1.5:
+            oneStar.image = UIImage(named: "starFull24")
+            twoStar.image = UIImage(named: "starHalf24")
+            break
+        case 2:
+            oneStar.image = UIImage(named: "starFull24")
+            twoStar.image = UIImage(named: "starFull24")
+            break
+        case 2.5:
+            oneStar.image = UIImage(named: "starFull24")
+            twoStar.image = UIImage(named: "starFull24")
+            threeStar.image = UIImage(named: "starHalf24")
+            break
+        case 3:
+            oneStar.image = UIImage(named: "starFull24")
+            twoStar.image = UIImage(named: "starFull24")
+            threeStar.image = UIImage(named: "starFull24")
+            break
+        case 3.5:
+            oneStar.image = UIImage(named: "starFull24")
+            twoStar.image = UIImage(named: "starFull24")
+            threeStar.image = UIImage(named: "starFull24")
+            fourStar.image = UIImage(named: "starHalf24")
+            break
+        case 4:
+            oneStar.image = UIImage(named: "starFull24")
+            twoStar.image = UIImage(named: "starFull24")
+            threeStar.image = UIImage(named: "starFull24")
+            fourStar.image = UIImage(named: "starFull24")
+            break
+        case 4.5:
+            oneStar.image = UIImage(named: "starFull24")
+            twoStar.image = UIImage(named: "starFull24")
+            threeStar.image = UIImage(named: "starFull24")
+            fourStar.image = UIImage(named: "starFull24")
+            fiveStar.image = UIImage(named: "starHalf24")
+            break
+        case 5:
+            oneStar.image = UIImage(named: "starFull24")
+            twoStar.image = UIImage(named: "starFull24")
+            threeStar.image = UIImage(named: "starFull24")
+            fourStar.image = UIImage(named: "starFull24")
+            fiveStar.image = UIImage(named: "starFull24")
+            break
+        default:
+            break
+        }
+        
     }
-    */
+    
+    func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
+        // this is where visible maprect should be set
+        if let currBusiness = self.business, let currLatitude = self.userLatitude, let currLongitude = self.userLongitude {
+          //
+           
+           let userPin: MKPointAnnotation = MKPointAnnotation()
+           userPin.coordinate = CLLocationCoordinate2D(latitude: currLatitude, longitude: currLongitude)
+           userPin.title = "You are here"
+           mapView.addAnnotation(userPin)
+           mapView.addAnnotation(currBusiness)
+            
+            let p1 = MKMapPoint(userPin.coordinate)
+            let p2 = MKMapPoint(currBusiness.coordinate)
+           
+    //           let distance = calculateDistance(location1: initialLocation, location2: CLLocation(latitude: currBusiness.coordinate.latitude, longitude: currBusiness.coordinate.longitude))
+    //           print(distance)
+            
+            let width = fabs(p1.x-p2.x) * 1.4
+            let xChange = fabs(p1.x-p2.x) * 0.2
+            let height = fabs(p1.y-p2.y) * 1.4
+            let yChange = fabs(p1.y-p2.y) * 0.2
+
+            let mapRect = MKMapRect(x: fmin(p1.x,p2.x) - xChange, y: fmin(p1.y,p2.y) - yChange, width: width, height: height);
+            mapView.setVisibleMapRect(mapRect, animated: true)
+        }
+    }
 
 }
+

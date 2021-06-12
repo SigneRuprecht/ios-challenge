@@ -7,22 +7,20 @@
 //
 
 import Foundation
+import MapKit
 
-class Business {
+class Business: NSObject, MKAnnotation {
     
-    var id: String
-    var name: String
-    var rating: Double
+    let id: String
+    let title: String?
+    let rating: Double
+    let coordinate: CLLocationCoordinate2D
     
-    var phone: String?
-    var price: String?
-    var address: String?
-    var aliases: [String]?
-    
-    init(id: String, name: String, rating: Double) {
+    init(id: String, name: String, rating: Double, latitude: CLLocationDegrees, longitude: CLLocationDegrees) {
         self.id = id
-        self.name = name
+        self.title = name
         self.rating = rating
+        self.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
     
 }

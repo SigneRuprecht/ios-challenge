@@ -24,13 +24,7 @@ class BusinessTableViewCell: UITableViewCell {
     }
     
     func setCell(business: Business) {
-        self.name.text = business.name
-        
-        oneStar.image = UIImage(named: "starEmpty")
-        twoStar.image = UIImage(named: "starEmpty")
-        threeStar.image = UIImage(named: "starEmpty")
-        fourStar.image = UIImage(named: "starEmpty")
-        fiveStar.image = UIImage(named: "starEmpty")
+        self.name.text = business.title
         
         switch(business.rating) {
         case 0:

@@ -22,35 +22,35 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="starFull" translatesAutoresizingMaskIntoConstraints="NO" id="mTm-gc-kq8">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="starEmpty" translatesAutoresizingMaskIntoConstraints="NO" id="mTm-gc-kq8">
                         <rect key="frame" x="16" y="41" width="18" height="18"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="18" id="Go0-20-KH0"/>
                             <constraint firstAttribute="height" constant="18" id="WRN-es-JvB"/>
                         </constraints>
                     </imageView>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="starFull" translatesAutoresizingMaskIntoConstraints="NO" id="2rc-iB-LMu">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="starEmpty" translatesAutoresizingMaskIntoConstraints="NO" id="2rc-iB-LMu">
                         <rect key="frame" x="36" y="41" width="18" height="18"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="18" id="JI4-wG-Y0a"/>
                             <constraint firstAttribute="height" constant="18" id="bIo-qR-9dq"/>
                         </constraints>
                     </imageView>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="starFull" translatesAutoresizingMaskIntoConstraints="NO" id="eo2-zo-DCx">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="starEmpty" translatesAutoresizingMaskIntoConstraints="NO" id="eo2-zo-DCx">
                         <rect key="frame" x="56" y="41" width="18" height="18"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="18" id="6nv-Ky-FoD"/>
                             <constraint firstAttribute="height" constant="18" id="6xZ-Rv-Vrn"/>
                         </constraints>
                     </imageView>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="starFull" translatesAutoresizingMaskIntoConstraints="NO" id="fY8-Z0-wW5">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="starEmpty" translatesAutoresizingMaskIntoConstraints="NO" id="fY8-Z0-wW5">
                         <rect key="frame" x="76" y="41" width="18" height="18"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="18" id="PVj-bD-hxY"/>
                             <constraint firstAttribute="width" constant="18" id="xfR-cS-tl5"/>
                         </constraints>
                     </imageView>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="starFull" translatesAutoresizingMaskIntoConstraints="NO" id="asS-DR-7Qj">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="starEmpty" translatesAutoresizingMaskIntoConstraints="NO" id="asS-DR-7Qj">
                         <rect key="frame" x="96" y="41" width="18" height="18"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="18" id="3DW-Lo-6dg"/>
@@ -92,6 +92,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="starFull" width="18" height="18"/>
+        <image name="starEmpty" width="18" height="18"/>
     </resources>
 </document>
