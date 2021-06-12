@@ -20,11 +20,16 @@ class BusinessTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
     
     func setCell(business: Business) {
         self.name.text = business.title
+        
+        oneStar.image = UIImage(named: "starEmpty")
+        twoStar.image = UIImage(named: "starEmpty")
+        threeStar.image = UIImage(named: "starEmpty")
+        fourStar.image = UIImage(named: "starEmpty")
+        fiveStar.image = UIImage(named: "starEmpty")
         
         switch(business.rating) {
         case 0:

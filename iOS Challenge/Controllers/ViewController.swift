@@ -18,6 +18,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var businesses: [Business] = [Business]()
     var selectedBusiness: Business?
     
+    
+    @IBOutlet weak var pageLabel: UILabel!
+    var pageLocation: PageLocation = PageLocation()
+    
     var locationManager = CLLocationManager()
     var currLongitude: CLLocationDegrees!
     var currLatitude: CLLocationDegrees!
@@ -33,6 +37,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.registerTableViewCells()
     }
     
+    // MARK: Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showMap" {
             if let mapViewController = segue.destination as? MapViewController {
@@ -43,7 +48,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
 
+    // MARK: Search Yelp functions
     @IBAction func searchYelp(_ sender: Any) {
+        self.pageLocation.resetPage()
+        self.pageLabel.text = self.pageLocation.pageDescription
         getLocation()
     }
     
@@ -61,24 +69,29 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         
         locationManager.requestLocation()
-        
     }
     
-    func searchBusinesses(searchTerm: String, longitude: CLLocationDegrees, latitude: CLLocationDegrees) {
+    func searchBusinesses(searchTerm: String, longitude: CLLocationDegrees, latitude: CLLocationDegrees, offset: Int) {
         let apikey = "fIbyljOuO_kXY7RN5afW6Xk8I8rhu_DgpbmJSgmzH_xJ-feuDEauPpsQlR6xB5SoueCm2FRkZHvC5Dam6va0x2PGHJWXAKu740r9v3UIobkWSZrpvqbKx0NbXffDYHYx"
         let client = YLPClient(apiKey: apikey)
         
         self.businesses.removeAll()
           
         let location = YLPCoordinate(latitude: latitude, longitude: longitude)
-      
-        client.search(with: location, term: searchTerm, limit: 50, offset: 0, sort: .bestMatched, completionHandler: { (search, error)  in
+    
+        client.search(with: location, term: searchTerm, limit: 20, offset: UInt(offset), sort: .bestMatched, completionHandler: { (search, error)  in
               
             if let err = error {
                 print(err.localizedDescription)
+                self.pageLocation.setPageNotFound()
+                DispatchQueue.main.async {
+                    self.pageLabel.text = self.pageLocation.pageDescription
+                }
             }
               
             if let result = search {
+                self.pageLocation.setTotalPages(totalResults: result.total)
+               
                 for business in result.businesses {
                     
                     if let lat = business.location.coordinate?.latitude, let long = business.location.coordinate?.longitude {
@@ -87,10 +100,24 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     }
                 }
                 DispatchQueue.main.async {
+                    self.pageLabel.text = self.pageLocation.pageDescription
                     self.businessTableView.reloadData()
                 }
             }
         })
+    }
+    
+    @IBAction func showPreviousResults(_ sender: Any) {
+        
+        self.pageLocation.decrementPage()
+        searchBusinesses(searchTerm: searchTextField.text!, longitude: currLongitude, latitude: currLatitude, offset: Int(20 * (self.pageLocation.currPage)))
+        
+    }
+    
+    @IBAction func showNextResults(_ sender: Any) {
+        
+        self.pageLocation.incrementPage()
+        searchBusinesses(searchTerm: searchTextField.text!, longitude: currLongitude, latitude: currLatitude, offset: Int(20 * (self.pageLocation.currPage)))
     }
     
     func presentLocationUIAlert() {
@@ -141,7 +168,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if let location = locations.first {
             currLongitude = location.coordinate.longitude
             currLatitude = location.coordinate.latitude
-            searchBusinesses(searchTerm: searchTextField.text!, longitude: location.coordinate.longitude, latitude: location.coordinate.latitude)
+            searchBusinesses(searchTerm: searchTextField.text!, longitude: location.coordinate.longitude, latitude: location.coordinate.latitude, offset: 0)
         }
     }
     
