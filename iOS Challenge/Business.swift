@@ -10,11 +10,19 @@ import Foundation
 
 class Business {
     
+    var id: String
     var name: String
     var rating: Double
     
-    init(name: String, rating: Double) {
+    var phone: String?
+    var price: String?
+    var address: String?
+    var aliases: [String]?
+    
+    init(id: String, name: String, rating: Double) {
+        self.id = id
         self.name = name
         self.rating = rating
     }
+    
 }

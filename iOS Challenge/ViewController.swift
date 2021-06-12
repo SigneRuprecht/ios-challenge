@@ -16,6 +16,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var businessTableView: UITableView!
     
     var businesses: [Business] = [Business]()
+    var selectedBusinessId: String?
     
     var locationManager = CLLocationManager()
     var currLongitude: CLLocationDegrees!
@@ -30,6 +31,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.businessTableView.dataSource = self
         self.businessTableView.delegate = self
         self.registerTableViewCells()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showMap" {
+            if let mapViewController = segue.destination as? MapViewController {
+                mapViewController.businessId = selectedBusinessId
+            }
+        }
     }
 
     @IBAction func searchYelp(_ sender: Any) {
@@ -68,17 +77,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
               
             if let result = search {
                 for business in result.businesses {
-                    print(business.name)
-                    print(business.rating)
-//                  print(business.phone)
-                    self.businesses.append(Business(name: business.name, rating: business.rating))
+                    
+                    self.businesses.append(Business(id: business.identifier, name: business.name, rating: business.rating))
                 }
                 DispatchQueue.main.async {
                     self.businessTableView.reloadData()
                 }
             }
         })
-          
     }
     
     func presentLocationUIAlert() {
@@ -113,6 +119,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         
         return UITableViewCell()
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.selectedBusinessId = self.businesses[indexPath.row].id
+        self.performSegue(withIdentifier: "showMap", sender: nil)
     }
     
     // MARK: CLLocationManagerDelegate

@@ -19,7 +19,7 @@
 		B96E7339267426FE0030741A /* BusinessTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B96E7337267426FE0030741A /* BusinessTableViewCell.swift */; };
 		B96E733A267426FE0030741A /* BusinessTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B96E7338267426FE0030741A /* BusinessTableViewCell.xib */; };
 		B96E733E26742A920030741A /* Business.swift in Sources */ = {isa = PBXBuildFile; fileRef = B96E733D26742A920030741A /* Business.swift */; };
-		B96E734026742F5D0030741A /* YelpQueries.swift in Sources */ = {isa = PBXBuildFile; fileRef = B96E733F26742F5D0030741A /* YelpQueries.swift */; };
+		B9907F5F2674CB8200ABDC19 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9907F5E2674CB8200ABDC19 /* MapViewController.swift */; };
 		BD58B83B94272BC839A2A1E7 /* Pods_iOS_Challenge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84C99B1109E14DDBC9B05C17 /* Pods_iOS_Challenge.framework */; };
 		CA2AA2C3969BB3CF1ABE887D /* Pods_iOS_Challenge_iOS_ChallengeUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C01AE743F4866D247570D8E3 /* Pods_iOS_Challenge_iOS_ChallengeUITests.framework */; };
 /* End PBXBuildFile section */
@@ -65,7 +65,7 @@
 		B96E7337267426FE0030741A /* BusinessTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessTableViewCell.swift; sourceTree = "<group>"; };
 		B96E7338267426FE0030741A /* BusinessTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BusinessTableViewCell.xib; sourceTree = "<group>"; };
 		B96E733D26742A920030741A /* Business.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Business.swift; sourceTree = "<group>"; };
-		B96E733F26742F5D0030741A /* YelpQueries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YelpQueries.swift; sourceTree = "<group>"; };
+		B9907F5E2674CB8200ABDC19 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		C01AE743F4866D247570D8E3 /* Pods_iOS_Challenge_iOS_ChallengeUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOS_Challenge_iOS_ChallengeUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0BEF210E63AF8FD504EB4F8 /* Pods-iOS Challenge.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS Challenge.release.xcconfig"; path = "Target Support Files/Pods-iOS Challenge/Pods-iOS Challenge.release.xcconfig"; sourceTree = "<group>"; };
 		DACC2913AFCF504228DFD2EC /* Pods-iOS ChallengeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS ChallengeTests.debug.xcconfig"; path = "Target Support Files/Pods-iOS ChallengeTests/Pods-iOS ChallengeTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -144,7 +144,7 @@
 				B96E7337267426FE0030741A /* BusinessTableViewCell.swift */,
 				B96E7338267426FE0030741A /* BusinessTableViewCell.xib */,
 				B96E733D26742A920030741A /* Business.swift */,
-				B96E733F26742F5D0030741A /* YelpQueries.swift */,
+				B9907F5E2674CB8200ABDC19 /* MapViewController.swift */,
 			);
 			path = "iOS Challenge";
 			sourceTree = "<group>";
@@ -422,10 +422,10 @@
 			files = (
 				B911C32426740F9500524463 /* ViewController.swift in Sources */,
 				B96E7339267426FE0030741A /* BusinessTableViewCell.swift in Sources */,
-				B96E734026742F5D0030741A /* YelpQueries.swift in Sources */,
 				B911C32026740F9500524463 /* AppDelegate.swift in Sources */,
 				B96E733E26742A920030741A /* Business.swift in Sources */,
 				B911C32226740F9500524463 /* SceneDelegate.swift in Sources */,
+				B9907F5F2674CB8200ABDC19 /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
