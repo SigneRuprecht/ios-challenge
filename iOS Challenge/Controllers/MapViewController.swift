@@ -59,7 +59,6 @@ class MapViewController: UIViewController {
             }
             
             if let result = business {
-                
                 DispatchQueue.main.async {
                     currBusiness.updateDetails(phone: result.phone, location: result.location, categories: result.categories, reviews: result.reviewCount)
                     self.businessNameLabel.text = currBusiness.title
