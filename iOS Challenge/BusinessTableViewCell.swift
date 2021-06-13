@@ -7,10 +7,12 @@
 //
 
 import UIKit
+import MapKit
 
 class BusinessTableViewCell: UITableViewCell {
 
     @IBOutlet weak var name: UILabel!
+    @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var oneStar: UIImageView!
     @IBOutlet weak var twoStar: UIImageView!
     @IBOutlet weak var threeStar: UIImageView!
@@ -22,7 +24,7 @@ class BusinessTableViewCell: UITableViewCell {
         super.awakeFromNib()
     }
     
-    func setCell(business: Business) {
+    func setCell(business: Business, userLatitude: CLLocationDegrees, userLongitude: CLLocationDegrees) {
         self.name.text = business.title
         
         oneStar.image = UIImage(named: "starEmpty")
@@ -87,6 +89,8 @@ class BusinessTableViewCell: UITableViewCell {
         default:
             break
         }
+        
+        self.distanceLabel.text = business.calculateDistance(latitude: userLatitude, longitude: userLongitude)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

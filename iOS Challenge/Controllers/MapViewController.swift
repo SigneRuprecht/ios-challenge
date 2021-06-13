@@ -17,17 +17,18 @@ class MapViewController: UIViewController {
     var userLongitude: CLLocationDegrees?
     
     var business: Business?
-    @IBOutlet weak var businessName: UILabel!
-    @IBOutlet weak var distance: UILabel!
-    @IBOutlet weak var numOfReviews: UILabel!
-    @IBOutlet weak var categories: UILabel!
-    @IBOutlet weak var address: UILabel!
-    @IBOutlet weak var phoneNumber: UIButton!
-    @IBOutlet weak var oneStar: UIImageView!
-    @IBOutlet weak var twoStar: UIImageView!
-    @IBOutlet weak var threeStar: UIImageView!
-    @IBOutlet weak var fourStar: UIImageView!
-    @IBOutlet weak var fiveStar: UIImageView!
+    @IBOutlet weak var businessNameLabel: UILabel!
+    @IBOutlet weak var distanceLabel: UILabel!
+    @IBOutlet weak var numOfReviewsLabel: UILabel!
+    @IBOutlet weak var categoriesLabel: UILabel!
+    @IBOutlet weak var addressLabel: UILabel!
+    @IBOutlet weak var phoneNumberButton: UIButton!
+    
+    @IBOutlet weak var oneStarImage: UIImageView!
+    @IBOutlet weak var twoStarImage: UIImageView!
+    @IBOutlet weak var threeStarImage: UIImageView!
+    @IBOutlet weak var fourStarImage: UIImageView!
+    @IBOutlet weak var fiveStarImage: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,17 +37,6 @@ class MapViewController: UIViewController {
         
         if let currBusiness = self.business {
             getBusinessDetails(currBusiness: currBusiness)
-        }
-    }
-    
-    func calculateDistance(location1: CLLocation, location2: CLLocation) -> String {
-        let distanceMeters = location1.distance(from: location2)
-        
-        if(distanceMeters < 650) {
-            return String(format: "%.1f m", distanceMeters)
-        } else {
-            let distanceMiles = distanceMeters / 1609.0
-            return String(format: "%.2f mi", distanceMiles)
         }
     }
     
@@ -60,36 +50,25 @@ class MapViewController: UIViewController {
             if let err = error {
                 // Unable to get business details. Display what we know from original search and hide the rest
                 print(err.localizedDescription)
-                self.businessName.text = currBusiness.title
-                self.numOfReviews.text = ""
+                self.businessNameLabel.text = currBusiness.title
+                self.numOfReviewsLabel.text = ""
+                self.addressLabel.text = ""
+                self.phoneNumberButton.setTitle("", for:  UIControl.State.normal)
+                self.categoriesLabel.text = ""
                 self.setRating(rating: currBusiness.rating)
-                self.categories.text = ""  
             }
             
             if let result = business {
                 
                 DispatchQueue.main.async {
-                    let address = result.location.address[0] + "\n" + result.location.city + ", " + result.location.stateCode + " " + result.location.postalCode
-                    
-                    var display = 2
-                    var categories = ""
-                    if(result.categories.count < 3) {
-                        display = result.categories.count - 1
-                    }
-                    
-                    for i in 0...display {
-                        categories = categories + result.categories[i].name
-                        if(i != display) {
-                            categories = categories + " • "
-                        }
-                    }
-                    
-                    self.businessName.text = result.name
-                    self.numOfReviews.text = "(" + String(result.reviewCount) + ")"
-                    self.phoneNumber.setTitle(result.phone, for: UIControl.State.normal)
-                    self.address.text = address
-                    self.categories.text = categories
+                    currBusiness.updateDetails(phone: result.phone, location: result.location, categories: result.categories, reviews: result.reviewCount)
+                    self.businessNameLabel.text = currBusiness.title
+                    self.numOfReviewsLabel.text = currBusiness.getNumOfReviews()
+                    self.addressLabel.text = currBusiness.getAddress()
+                    self.phoneNumberButton.setTitle(currBusiness.getPhoneNumber(), for:  UIControl.State.normal)
+                    self.categoriesLabel.text = currBusiness.getCategories()
                     self.setRating(rating: result.rating)
+                    self.business = currBusiness
                 }
               
             }
@@ -99,7 +78,7 @@ class MapViewController: UIViewController {
     
     @IBAction func callPhoneNumber(_ sender: Any) {
         
-        guard let number = self.phoneNumber.currentTitle else {
+        guard let number = self.phoneNumberButton.currentTitle else {
             return
         }
   
@@ -115,54 +94,54 @@ class MapViewController: UIViewController {
         case 0:
             break
         case 0.5:
-            oneStar.image = UIImage(named: "starHalf24")
+            oneStarImage.image = UIImage(named: "starHalf24")
             break
         case 1:
-            oneStar.image = UIImage(named: "starFull24")
+            oneStarImage.image = UIImage(named: "starFull24")
             break
         case 1.5:
-            oneStar.image = UIImage(named: "starFull24")
-            twoStar.image = UIImage(named: "starHalf24")
+            oneStarImage.image = UIImage(named: "starFull24")
+            twoStarImage.image = UIImage(named: "starHalf24")
             break
         case 2:
-            oneStar.image = UIImage(named: "starFull24")
-            twoStar.image = UIImage(named: "starFull24")
+            oneStarImage.image = UIImage(named: "starFull24")
+            twoStarImage.image = UIImage(named: "starFull24")
             break
         case 2.5:
-            oneStar.image = UIImage(named: "starFull24")
-            twoStar.image = UIImage(named: "starFull24")
-            threeStar.image = UIImage(named: "starHalf24")
+            oneStarImage.image = UIImage(named: "starFull24")
+            twoStarImage.image = UIImage(named: "starFull24")
+            threeStarImage.image = UIImage(named: "starHalf24")
             break
         case 3:
-            oneStar.image = UIImage(named: "starFull24")
-            twoStar.image = UIImage(named: "starFull24")
-            threeStar.image = UIImage(named: "starFull24")
+            oneStarImage.image = UIImage(named: "starFull24")
+            twoStarImage.image = UIImage(named: "starFull24")
+            threeStarImage.image = UIImage(named: "starFull24")
             break
         case 3.5:
-            oneStar.image = UIImage(named: "starFull24")
-            twoStar.image = UIImage(named: "starFull24")
-            threeStar.image = UIImage(named: "starFull24")
-            fourStar.image = UIImage(named: "starHalf24")
+            oneStarImage.image = UIImage(named: "starFull24")
+            twoStarImage.image = UIImage(named: "starFull24")
+            threeStarImage.image = UIImage(named: "starFull24")
+            fourStarImage.image = UIImage(named: "starHalf24")
             break
         case 4:
-            oneStar.image = UIImage(named: "starFull24")
-            twoStar.image = UIImage(named: "starFull24")
-            threeStar.image = UIImage(named: "starFull24")
-            fourStar.image = UIImage(named: "starFull24")
+            oneStarImage.image = UIImage(named: "starFull24")
+            twoStarImage.image = UIImage(named: "starFull24")
+            threeStarImage.image = UIImage(named: "starFull24")
+            fourStarImage.image = UIImage(named: "starFull24")
             break
         case 4.5:
-            oneStar.image = UIImage(named: "starFull24")
-            twoStar.image = UIImage(named: "starFull24")
-            threeStar.image = UIImage(named: "starFull24")
-            fourStar.image = UIImage(named: "starFull24")
-            fiveStar.image = UIImage(named: "starHalf24")
+            oneStarImage.image = UIImage(named: "starFull24")
+            twoStarImage.image = UIImage(named: "starFull24")
+            threeStarImage.image = UIImage(named: "starFull24")
+            fourStarImage.image = UIImage(named: "starFull24")
+            fiveStarImage.image = UIImage(named: "starHalf24")
             break
         case 5:
-            oneStar.image = UIImage(named: "starFull24")
-            twoStar.image = UIImage(named: "starFull24")
-            threeStar.image = UIImage(named: "starFull24")
-            fourStar.image = UIImage(named: "starFull24")
-            fiveStar.image = UIImage(named: "starFull24")
+            oneStarImage.image = UIImage(named: "starFull24")
+            twoStarImage.image = UIImage(named: "starFull24")
+            threeStarImage.image = UIImage(named: "starFull24")
+            fourStarImage.image = UIImage(named: "starFull24")
+            fiveStarImage.image = UIImage(named: "starFull24")
             break
         default:
             break
@@ -174,29 +153,29 @@ class MapViewController: UIViewController {
 extension MapViewController: MKMapViewDelegate {
     
     func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
-        // this is where visible maprect should be set
+      
         if let currBusiness = self.business, let currLatitude = self.userLatitude, let currLongitude = self.userLongitude {
-          //
-           
+     
            let userPin: MKPointAnnotation = MKPointAnnotation()
            userPin.coordinate = CLLocationCoordinate2D(latitude: currLatitude, longitude: currLongitude)
            userPin.title = "You are here"
            mapView.addAnnotation(userPin)
            mapView.addAnnotation(currBusiness)
             
-            let p1 = MKMapPoint(userPin.coordinate)
-            let p2 = MKMapPoint(currBusiness.coordinate)
+           let p1 = MKMapPoint(userPin.coordinate)
+           let p2 = MKMapPoint(currBusiness.coordinate)
            
-           self.distance.text = calculateDistance(location1: CLLocation(latitude: currLatitude, longitude: currLongitude), location2: CLLocation(latitude: currBusiness.coordinate.latitude, longitude: currBusiness.coordinate.longitude))
+           self.distanceLabel.text = self.business?.calculateDistance(latitude: currLatitude, longitude: currLongitude)
             
-            let width = fabs(p1.x-p2.x) * 1.4
-            let xChange = fabs(p1.x-p2.x) * 0.2
-            let height = fabs(p1.y-p2.y) * 1.4
-            let yChange = fabs(p1.y-p2.y) * 0.2
+           let width = fabs(p1.x-p2.x) * 1.4
+           let xChange = fabs(p1.x-p2.x) * 0.2
+           let height = fabs(p1.y-p2.y) * 1.4
+           let yChange = fabs(p1.y-p2.y) * 0.2
 
             let mapRect = MKMapRect(x: fmin(p1.x,p2.x) - xChange, y: fmin(p1.y,p2.y) - yChange, width: width, height: height);
             mapView.setVisibleMapRect(mapRect, animated: true)
         }
     }
+    
 }
 

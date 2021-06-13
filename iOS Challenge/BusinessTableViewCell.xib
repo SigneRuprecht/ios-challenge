@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -57,6 +58,12 @@
                             <constraint firstAttribute="width" constant="18" id="vT9-ZJ-rLT"/>
                         </constraints>
                     </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4.2 mi" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ew8-ux-Bjm">
+                        <rect key="frame" x="257" y="43" width="47" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="bottom" secondItem="2rc-iB-LMu" secondAttribute="bottom" constant="16" id="07X-WE-8Ij"/>
@@ -65,9 +72,12 @@
                     <constraint firstItem="eo2-zo-DCx" firstAttribute="leading" secondItem="2rc-iB-LMu" secondAttribute="trailing" constant="2" id="DMx-5L-cKd"/>
                     <constraint firstItem="eo2-zo-DCx" firstAttribute="top" secondItem="hOZ-GT-477" secondAttribute="bottom" constant="8" id="Ee4-Rk-cw4"/>
                     <constraint firstItem="asS-DR-7Qj" firstAttribute="top" secondItem="hOZ-GT-477" secondAttribute="bottom" constant="8" id="QLe-bJ-woJ"/>
+                    <constraint firstAttribute="bottom" secondItem="Ew8-ux-Bjm" secondAttribute="bottom" constant="11" id="Txp-IV-89v"/>
                     <constraint firstItem="fY8-Z0-wW5" firstAttribute="leading" secondItem="eo2-zo-DCx" secondAttribute="trailing" constant="2" id="U3K-ot-OwZ"/>
+                    <constraint firstAttribute="trailing" secondItem="Ew8-ux-Bjm" secondAttribute="trailing" constant="16" id="VQ2-sF-sG6"/>
                     <constraint firstItem="fY8-Z0-wW5" firstAttribute="top" secondItem="hOZ-GT-477" secondAttribute="bottom" constant="8" id="Vpl-Y2-RVe"/>
                     <constraint firstAttribute="trailing" secondItem="hOZ-GT-477" secondAttribute="trailing" constant="16" id="WE2-Ya-4FT"/>
+                    <constraint firstItem="Ew8-ux-Bjm" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="asS-DR-7Qj" secondAttribute="trailing" constant="8" id="ama-C0-bxk"/>
                     <constraint firstAttribute="bottom" secondItem="mTm-gc-kq8" secondAttribute="bottom" constant="16" id="cP2-bX-AiE"/>
                     <constraint firstAttribute="bottom" secondItem="fY8-Z0-wW5" secondAttribute="bottom" constant="16" id="iP8-dU-BJ7"/>
                     <constraint firstItem="mTm-gc-kq8" firstAttribute="top" secondItem="hOZ-GT-477" secondAttribute="bottom" constant="8" id="kWv-Ge-QoQ"/>
@@ -81,6 +91,7 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="distanceLabel" destination="Ew8-ux-Bjm" id="iEW-d9-4oN"/>
                 <outlet property="fiveStar" destination="asS-DR-7Qj" id="rf4-2T-kMC"/>
                 <outlet property="fourStar" destination="fY8-Z0-wW5" id="47x-Fk-E2z"/>
                 <outlet property="name" destination="hOZ-GT-477" id="Tjo-Vt-AhT"/>

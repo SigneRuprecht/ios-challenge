@@ -111,6 +111,7 @@ class ViewController: UIViewController, UITableViewDataSource {
                     self.setPageButtons(next: self.pageLocation.nextVisible, previous: self.pageLocation.prevVisible)
                     self.pageLabel.text = self.pageLocation.pageDescription
                     self.businessTableView.reloadData()
+                    self.businessTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
                 }
             }
               
@@ -128,6 +129,7 @@ class ViewController: UIViewController, UITableViewDataSource {
                     self.setPageButtons(next: self.pageLocation.nextVisible, previous: self.pageLocation.prevVisible)
                     self.pageLabel.text = self.pageLocation.pageDescription
                     self.businessTableView.reloadData()
+                    self.businessTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
                 }
             }
         })
@@ -209,7 +211,7 @@ extension ViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "BusinessTableViewCell") as? BusinessTableViewCell {
-            cell.setCell(business: businesses[indexPath.row])
+            cell.setCell(business: businesses[indexPath.row], userLatitude: currLatitude, userLongitude: currLongitude)
             return cell
         }
         
@@ -239,16 +241,13 @@ extension ViewController: CLLocationManagerDelegate {
 // MARK: UITextFieldDelegate
 extension ViewController: UITextFieldDelegate {
      func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-     //Check if there is any other text-field in the view whose tag is +1 greater than the current text-field on which the return key was pressed. If yes → then move the cursor to that next text-field. If No → Dismiss the keyboard
-     textField.resignFirstResponder()
-     searchYelp()
-     return false
+         textField.resignFirstResponder()
+         searchYelp()
+         return false
      }
     
     @objc func dismissMyKeyboard(){
-     //endEditing causes the view (or one of its embedded text fields) to resign the first responder status.
-     //In short- Dismiss the active keyboard.
-     view.endEditing(true)
+        view.endEditing(true)
      }
  }
 
