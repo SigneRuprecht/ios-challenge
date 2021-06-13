@@ -27,6 +27,20 @@ class PageLocation {
             self.totalPages = 1
         }
         self.pageDescription = "page \(self.currPage)/\(self.totalPages)"
+        
+        self.nextVisible = true
+        self.prevVisible = true
+        
+        if(self.currPage == self.totalPages) {
+            self.nextVisible = false
+            return
+        }
+        
+        if(self.currPage == 1) {
+            self.prevVisible = false
+            return
+        }
+        
     }
     
     func setPageNotFound() {

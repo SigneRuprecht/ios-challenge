@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 import YelpAPI
 
-class MapViewController: UIViewController, MKMapViewDelegate {
+class MapViewController: UIViewController {
     
     @IBOutlet weak var mapView: MKMapView!
     var userLatitude: CLLocationDegrees?
@@ -21,9 +21,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var distance: UILabel!
     @IBOutlet weak var numOfReviews: UILabel!
     @IBOutlet weak var categories: UILabel!
-    @IBOutlet weak var phoneNumber: UILabel!
     @IBOutlet weak var address: UILabel!
-    
+    @IBOutlet weak var phoneNumber: UIButton!
     @IBOutlet weak var oneStar: UIImageView!
     @IBOutlet weak var twoStar: UIImageView!
     @IBOutlet weak var threeStar: UIImageView!
@@ -87,7 +86,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                     
                     self.businessName.text = result.name
                     self.numOfReviews.text = "(" + String(result.reviewCount) + ")"
-                    self.phoneNumber.text = result.phone
+                    self.phoneNumber.setTitle(result.phone, for: UIControl.State.normal)
                     self.address.text = address
                     self.categories.text = categories
                     self.setRating(rating: result.rating)
@@ -96,6 +95,18 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             }
         })
         
+    }
+    
+    @IBAction func callPhoneNumber(_ sender: Any) {
+        
+        guard let number = self.phoneNumber.currentTitle else {
+            return
+        }
+  
+        if let url = URL(string: "tel://\(number)"),
+            UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
     }
     
     func setRating(rating: Double) {
@@ -158,8 +169,10 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
         
     }
+}
+// MARK: MKMapViewDelegate
+extension MapViewController: MKMapViewDelegate {
     
-    // MARK: MKMapViewDelegate
     func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
         // this is where visible maprect should be set
         if let currBusiness = self.business, let currLatitude = self.userLatitude, let currLongitude = self.userLongitude {
@@ -185,6 +198,5 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             mapView.setVisibleMapRect(mapRect, animated: true)
         }
     }
-
 }
 

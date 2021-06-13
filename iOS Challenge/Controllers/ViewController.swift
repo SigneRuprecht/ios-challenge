@@ -10,7 +10,9 @@ import UIKit
 import CoreLocation
 import YelpAPI
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate {
+class ViewController: UIViewController, UITableViewDataSource {
+    
+    @IBOutlet weak var searchActivityIndicator: UIActivityIndicatorView!
     
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var businessTableView: UITableView!
@@ -20,6 +22,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     @IBOutlet weak var pageLabel: UILabel!
     var pageLocation: PageLocation = PageLocation()
+    @IBOutlet weak var previousButton: UIButton!
+    @IBOutlet weak var nextButton: UIButton!
     
     var locationManager = CLLocationManager()
     var currLongitude: CLLocationDegrees!
@@ -27,6 +31,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        searchTextField.delegate = self
+        
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
@@ -52,11 +58,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let status = CLLocationManager.authorizationStatus()
 
         if(status == .denied || status == .restricted || !CLLocationManager.locationServicesEnabled()){
+            self.searchActivityIndicator.stopAnimating()
             presentLocationPermissionUIAlert()
             return
         }
         
         if(status == .notDetermined){
+            self.searchActivityIndicator.stopAnimating()
             locationManager.requestWhenInUseAuthorization()
             return
         }
@@ -66,7 +74,19 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     // MARK: Search Yelp functions
     @IBAction func searchYelp(_ sender: Any) {
+        dismissMyKeyboard()
+        self.searchActivityIndicator.startAnimating()
         self.pageLocation.resetPage()
+        setPageButtons(next: self.pageLocation.nextVisible, previous: self.pageLocation.prevVisible)
+        self.pageLabel.text = self.pageLocation.pageDescription
+        getLocation()
+    }
+    
+    func searchYelp() {
+        dismissMyKeyboard()
+        self.searchActivityIndicator.startAnimating()
+        self.pageLocation.resetPage()
+        setPageButtons(next: self.pageLocation.nextVisible, previous: self.pageLocation.prevVisible)
         self.pageLabel.text = self.pageLocation.pageDescription
         getLocation()
     }
@@ -80,11 +100,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let location = YLPCoordinate(latitude: latitude, longitude: longitude)
     
         client.search(with: location, term: searchTerm, limit: 20, offset: UInt(offset), sort: .bestMatched, completionHandler: { (search, error)  in
-              
+            DispatchQueue.main.async {
+                self.searchActivityIndicator.stopAnimating()
+            }
+            
             if let err = error {
                 print(err.localizedDescription)
                 self.pageLocation.setPageNotFound()
                 DispatchQueue.main.async {
+                    self.setPageButtons(next: self.pageLocation.nextVisible, previous: self.pageLocation.prevVisible)
                     self.pageLabel.text = self.pageLocation.pageDescription
                     self.businessTableView.reloadData()
                 }
@@ -101,6 +125,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     }
                 }
                 DispatchQueue.main.async {
+                    self.setPageButtons(next: self.pageLocation.nextVisible, previous: self.pageLocation.prevVisible)
                     self.pageLabel.text = self.pageLocation.pageDescription
                     self.businessTableView.reloadData()
                 }
@@ -111,6 +136,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBAction func showPreviousResults(_ sender: Any) {
         
         self.pageLocation.decrementPage()
+        setPageButtons(next: self.pageLocation.nextVisible, previous: self.pageLocation.prevVisible)
         searchBusinesses(searchTerm: searchTextField.text!, longitude: currLongitude, latitude: currLatitude, offset: Int(20 * (self.pageLocation.currPage - 1)))
         
     }
@@ -118,7 +144,26 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBAction func showNextResults(_ sender: Any) {
         
         self.pageLocation.incrementPage()
+        setPageButtons(next: self.pageLocation.nextVisible, previous: self.pageLocation.prevVisible)
         searchBusinesses(searchTerm: searchTextField.text!, longitude: currLongitude, latitude: currLatitude, offset: Int(20 * (self.pageLocation.currPage - 1)))
+    }
+    
+    func setPageButtons(next: Bool, previous: Bool) {
+        if(next) {
+            self.nextButton.isEnabled = true
+            self.nextButton.isHidden = false
+        } else {
+            self.nextButton.isEnabled = false
+            self.nextButton.isHidden = true
+        }
+        
+        if(previous) {
+            self.previousButton.isEnabled = true
+            self.previousButton.isHidden = false
+        } else {
+            self.previousButton.isEnabled = false
+            self.previousButton.isHidden = true
+        }
     }
     
     func presentLocationPermissionUIAlert() {
@@ -147,7 +192,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.present(alert, animated: true)
     }
     
-    // MARK: UITableViewDelegate
+}
+// MARK: UITableViewDelegate
+extension ViewController: UITableViewDelegate {
+    
     private func registerTableViewCells() {
         let businessCell = UINib(nibName: "BusinessTableViewCell",
                                   bundle: nil)
@@ -172,8 +220,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.selectedBusiness = self.businesses[indexPath.row]
         self.performSegue(withIdentifier: "showMap", sender: nil)
     }
-    
-    // MARK: CLLocationManagerDelegate
+}
+// MARK: CLLocationManagerDelegate
+extension ViewController: CLLocationManagerDelegate {
+ 
     internal func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         presentLocationUIAlert()
     }
@@ -185,7 +235,21 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             searchBusinesses(searchTerm: searchTextField.text!, longitude: location.coordinate.longitude, latitude: location.coordinate.latitude, offset: 0)
         }
     }
-    
-   
 }
+// MARK: UITextFieldDelegate
+extension ViewController: UITextFieldDelegate {
+     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+     //Check if there is any other text-field in the view whose tag is +1 greater than the current text-field on which the return key was pressed. If yes → then move the cursor to that next text-field. If No → Dismiss the keyboard
+     textField.resignFirstResponder()
+     searchYelp()
+     return false
+     }
+    
+    @objc func dismissMyKeyboard(){
+     //endEditing causes the view (or one of its embedded text fields) to resign the first responder status.
+     //In short- Dismiss the active keyboard.
+     view.endEditing(true)
+     }
+ }
+
 
