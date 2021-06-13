@@ -18,7 +18,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var businesses: [Business] = [Business]()
     var selectedBusiness: Business?
     
-    
     @IBOutlet weak var pageLabel: UILabel!
     var pageLocation: PageLocation = PageLocation()
     
@@ -47,19 +46,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
         }
     }
-
-    // MARK: Search Yelp functions
-    @IBAction func searchYelp(_ sender: Any) {
-        self.pageLocation.resetPage()
-        self.pageLabel.text = self.pageLocation.pageDescription
-        getLocation()
-    }
     
+    // MARK: User location functions
     private func getLocation() {
         let status = CLLocationManager.authorizationStatus()
 
         if(status == .denied || status == .restricted || !CLLocationManager.locationServicesEnabled()){
-            presentLocationUIAlert()
+            presentLocationPermissionUIAlert()
             return
         }
         
@@ -69,6 +62,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         
         locationManager.requestLocation()
+    }
+
+    // MARK: Search Yelp functions
+    @IBAction func searchYelp(_ sender: Any) {
+        self.pageLocation.resetPage()
+        self.pageLabel.text = self.pageLocation.pageDescription
+        getLocation()
     }
     
     func searchBusinesses(searchTerm: String, longitude: CLLocationDegrees, latitude: CLLocationDegrees, offset: Int) {
@@ -86,6 +86,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 self.pageLocation.setPageNotFound()
                 DispatchQueue.main.async {
                     self.pageLabel.text = self.pageLocation.pageDescription
+                    self.businessTableView.reloadData()
                 }
             }
               
@@ -110,18 +111,31 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBAction func showPreviousResults(_ sender: Any) {
         
         self.pageLocation.decrementPage()
-        searchBusinesses(searchTerm: searchTextField.text!, longitude: currLongitude, latitude: currLatitude, offset: Int(20 * (self.pageLocation.currPage)))
+        searchBusinesses(searchTerm: searchTextField.text!, longitude: currLongitude, latitude: currLatitude, offset: Int(20 * (self.pageLocation.currPage - 1)))
         
     }
     
     @IBAction func showNextResults(_ sender: Any) {
         
         self.pageLocation.incrementPage()
-        searchBusinesses(searchTerm: searchTextField.text!, longitude: currLongitude, latitude: currLatitude, offset: Int(20 * (self.pageLocation.currPage)))
+        searchBusinesses(searchTerm: searchTextField.text!, longitude: currLongitude, latitude: currLatitude, offset: Int(20 * (self.pageLocation.currPage - 1)))
+    }
+    
+    func presentLocationPermissionUIAlert() {
+        let alert = UIAlertController(title: "This feature requires Location Services", message: "Turn on Location Services to search businesses near you", preferredStyle: .alert)
+
+        alert.addAction(UIAlertAction(title: "Settings", style: .default, handler: { action in
+
+            UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+
+        self.present(alert, animated: true)
     }
     
     func presentLocationUIAlert() {
-        let alert = UIAlertController(title: "This feature requires Location Services", message: "Turn on Location Services to search businesses near you", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Could not get user location", message: "Location Services are unavailable at this time", preferredStyle: .alert)
 
         alert.addAction(UIAlertAction(title: "Settings", style: .default, handler: { action in
 
@@ -161,7 +175,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     // MARK: CLLocationManagerDelegate
     internal func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print(error)
+        presentLocationUIAlert()
     }
     
     internal func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {

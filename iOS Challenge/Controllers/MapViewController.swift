@@ -51,7 +51,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
-    
     func getBusinessDetails(currBusiness: Business) {
         
         let apikey = "fIbyljOuO_kXY7RN5afW6Xk8I8rhu_DgpbmJSgmzH_xJ-feuDEauPpsQlR6xB5SoueCm2FRkZHvC5Dam6va0x2PGHJWXAKu740r9v3UIobkWSZrpvqbKx0NbXffDYHYx"
@@ -160,6 +159,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
     }
     
+    // MARK: MKMapViewDelegate
     func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
         // this is where visible maprect should be set
         if let currBusiness = self.business, let currLatitude = self.userLatitude, let currLongitude = self.userLongitude {
@@ -175,7 +175,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             let p2 = MKMapPoint(currBusiness.coordinate)
            
            self.distance.text = calculateDistance(location1: CLLocation(latitude: currLatitude, longitude: currLongitude), location2: CLLocation(latitude: currBusiness.coordinate.latitude, longitude: currBusiness.coordinate.longitude))
-  
             
             let width = fabs(p1.x-p2.x) * 1.4
             let xChange = fabs(p1.x-p2.x) * 0.2
